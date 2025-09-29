@@ -1,13 +1,14 @@
-﻿using System.Data;
+﻿bool named = false;
 
-while (true)
+while (named == false)
 {
     Console.WriteLine("Tryck \'Enter\' för att starta");
     string start = Console.ReadLine();
+    
     if (start == "")
     {
         namn();
-        break;
+        named = true;
     }
 }
 
@@ -34,50 +35,67 @@ static void fight(string namn1, string namn2)
 {
     int HP1 = 100;
     int HP2 = 100;
-    int roundCounter = 0;
+    int roundCounter = 1;
     bool isOn = true;
 
     Console.WriteLine($"\n{namn1} VS {namn2}\n");
     while (isOn)
     {
-        Console.WriteLine("\nTryck \'Enter\'för att starta nästa runda");
-        string round = Console.ReadLine();
-        if (round == "")
+        Console.WriteLine($"\nTryck \'Enter\' för att starta runda {roundCounter}");
+        string roundStart = Console.ReadLine();
+        if (roundStart == "")
         {
-            roundCounter++;
             Console.WriteLine($"\nRunda {roundCounter}");
+            roundCounter++;
            
-            int dmg = damage();
-            HP2 -= dmg;
-            if (HP2 <= 0)
-            {
-                Console.WriteLine($"{namn1} börjar! Han gör {dmg} skada, {namn2} har nu 0 liv kvar");
-            }
-            else
-            {
-                Console.WriteLine($"{namn1} börjar! Han gör {dmg} skada, {namn2} har nu {HP2} liv kvar");
-            }
-            dmg = damage();
-            HP1 -= dmg;
-            if (HP1 <= 0)
-            {
-                Console.WriteLine($"{namn2} kör nästa! Han gör {dmg} skada, {namn1} har nu 0 liv kvar");
-            }
-            else{Console.WriteLine($"{namn2} kör nästa! Han gör {dmg} skada, {namn1} har nu {HP1} liv kvar");}
+            int dmg1 = damage();
+            HP2 -= dmg1;
+            int dmg2 = damage();
+            HP1 -= dmg2;
 
-            if (HP1 <= 0)
+            if (HP2 <= 0 && HP1 <= 0)
             {
-                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... \n{namn2}");
-                isOn = false;
+                if (dmg1 > dmg2)
+                {
+                    Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu 0 liv kvar");
+                    Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn1}");
+                    isOn = false;
+                }
+                else if (dmg1 < dmg2)
+                {
+                    Console.WriteLine($"{namn1} börjar! Han gör {HP2 - 1} skada, {namn2} har nu 1 liv kvar");
+                    Console.WriteLine($"{namn2} kör nästa! Han gör {dmg2} skada, {namn1} har nu 0 liv kvar");
+                    Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn2}");
+                    isOn = false;
+                }
+                else
+                {
+                    Console.WriteLine($"{namn1} börjar! Han gör {HP2 - 1} skada, {namn2} har nu 1 liv kvar");
+                    Console.WriteLine($"{namn2} börjar! Han gör {HP1 - 1} skada, {namn1} har nu 1 liv kvar");
+                    Console.WriteLine("Båda är mycket svaga och kan inte längre slåss, matchen slutar oavgjord");
+                    isOn = false;
+                }
             }
             else if (HP2 <= 0)
             {
-                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... \n{namn1}");
+                Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu 0 liv kvar");
+                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn1}");
                 isOn = false;
+            }
+            else if (HP1 <= 0)
+            {
+                Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu {HP2} liv kvar");
+                Console.WriteLine($"{namn2} kör nästa! Han gör {dmg2} skada, {namn1} har nu 0 liv kvar");
+                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn2}");
+                isOn = false;
+            }
+            else
+            {
+                Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu {HP2} liv kvar");
+                Console.WriteLine($"{namn2} kör nästa! Han gör {dmg2} skada, {namn1} har nu {HP1} liv kvar");
             }
         }
     }
-    
 }
 
 static int damage()

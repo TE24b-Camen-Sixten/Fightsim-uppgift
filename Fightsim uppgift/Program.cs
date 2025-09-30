@@ -1,4 +1,6 @@
-﻿bool named = false;
+﻿using System.Dynamic;
+
+bool named = false;
 
 while (named == false)
 {
@@ -58,35 +60,35 @@ static void fight(string namn1, string namn2)
                 if (dmg1 > dmg2)
                 {
                     Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu 0 liv kvar");
-                    Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn1}");
+                    Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn1}\n");
                     isOn = false;
                 }
                 else if (dmg1 < dmg2)
                 {
                     Console.WriteLine($"{namn1} börjar! Han gör {HP2 - 1} skada, {namn2} har nu 1 liv kvar");
                     Console.WriteLine($"{namn2} kör nästa! Han gör {dmg2} skada, {namn1} har nu 0 liv kvar");
-                    Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn2}");
+                    Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn2}\n");
                     isOn = false;
                 }
                 else
                 {
                     Console.WriteLine($"{namn1} börjar! Han gör {HP2 - 1} skada, {namn2} har nu 1 liv kvar");
                     Console.WriteLine($"{namn2} börjar! Han gör {HP1 - 1} skada, {namn1} har nu 1 liv kvar");
-                    Console.WriteLine("Båda är mycket svaga och kan inte längre slåss, matchen slutar oavgjord");
+                    Console.WriteLine("Båda är mycket svaga och kan inte längre slåss, matchen slutar oavgjord\n");
                     isOn = false;
                 }
             }
             else if (HP2 <= 0)
             {
                 Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu 0 liv kvar");
-                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn1}");
+                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn1}\n");
                 isOn = false;
             }
             else if (HP1 <= 0)
             {
                 Console.WriteLine($"{namn1} börjar! Han gör {dmg1} skada, {namn2} har nu {HP2} liv kvar");
                 Console.WriteLine($"{namn2} kör nästa! Han gör {dmg2} skada, {namn1} har nu 0 liv kvar");
-                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn2}");
+                Console.WriteLine($"\nVi har en vinnare! Vinnaren är... {namn2}\n");
                 isOn = false;
             }
             else
@@ -103,4 +105,23 @@ static int damage()
     return (Random.Shared.Next(21));
 }
 
-Console.ReadLine();
+
+static void restarter()
+{
+    Console.WriteLine("Vill du köra igen? [y]/[n]");
+    string restart = Console.ReadLine();
+
+    if (restart == "y")
+    {
+        Console.WriteLine("\n");
+        namn();
+    }
+    else if (restart == "n") { }
+    else
+    {
+        Console.WriteLine("Du måste svara \'y\' eller \'n\'");
+        restarter();
+    }
+}
+
+restarter();
